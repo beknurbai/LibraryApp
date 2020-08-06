@@ -9,18 +9,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.library.interfaces.OnBookClick;
 import com.example.library.models.BooksDes;
 
 import java.util.ArrayList;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolder> {
+
+    private OnBookClick onBookClick;
+
+    public void setInBookClickListener(OnBookClick onBookClick) {
+        this.onBookClick = onBookClick;
+    }
+
     ArrayList<BooksDes> card;
 
     public BookAdapter(ArrayList<BooksDes> card) {
         this.card = card;
         BooksDes booksDes1 = new BooksDes(R.drawable.farengeitbook,
                 "451 по Фаренгейту",
-                " научно-фантастический роман-антиутопия Рэя Брэдбери, изданный в 1953 году. Роман описывает американское общество близкого будущего, в котором книги находятся под запретом; «пожарные»[1], к числу которых принадлежит и главный герой Гай Монтэг, сжигают любые найденные книги. В ходе романа Монтэг разочаровывается в идеалах общества, частью которого он является, становится изгоем и присоединяется к небольшой подпольной группе маргиналов, сторонники которой заучивают тексты книг, чтобы спасти их для потомков.");
+                " научно-фантастический роман-антиутопия Рэя Брэдбери, изданный в 1953 году. Роман описывает американское общество близкого будущего, в котором книги находятся под запретом; «пожарные», к числу которых принадлежит и главный герой Гай Монтэг, сжигают любые найденные книги. В ходе романа Монтэг разочаровывается в идеалах общества, частью которого он является, становится изгоем и присоединяется к небольшой подпольной группе маргиналов, сторонники которой заучивают тексты книг, чтобы спасти их для потомков.");
 
         BooksDes booksDes2 = new BooksDes(R.drawable.kiosakibook,
                 "Богатый папа ,бедный папа",
@@ -31,6 +39,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolde
                 "Самый красивый в двадцатом столетии роман о любви...\n" +
                         "Самый увлекательный в двадцатом столетии роман о дружбе...\n" +
                         "Самый трагический и пронзительный роман о человеческих отношениях за всю историю двадцатого столетия.\n");
+
         card.add(booksDes1);
         card.add(booksDes2);
         card.add(booksDes3);
@@ -62,6 +71,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolde
         public BooksViewHolder(@NonNull View itemView) {
             super(itemView);
             initializationViews(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                 onBookClick.onItemClick(getAdapterPosition());
+
+                }
+            });
         }
 
         private void initializationViews(View itemView) {
